@@ -1,0 +1,11 @@
+{
+  "name": "ignite-gym-pass",
+  "version": "0.0.0",
+  "description": "GymPass style app.",
+  "main": "./build/server.ts",
+  "author": "Luiz Gonçalves<luizhbgoncalves@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
