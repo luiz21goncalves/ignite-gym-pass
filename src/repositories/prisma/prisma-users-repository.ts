@@ -2,14 +2,14 @@ import { randomUUID } from 'node:crypto'
 
 import { prisma } from '@/lib/prisma'
 
-type CreateUserData = {
-  name: string
-  email: string
-  password_hash: string
-}
+import { CreateUserData, User, UsersRepository } from '../users-repository'
 
-export class PrismaUsersRepository {
-  public async create({ email, name, password_hash }: CreateUserData) {
+export class PrismaUsersRepository implements UsersRepository {
+  public async create({
+    email,
+    name,
+    password_hash,
+  }: CreateUserData): Promise<User> {
     const user = await prisma.user.create({
       data: {
         id: randomUUID(),
@@ -22,7 +22,7 @@ export class PrismaUsersRepository {
     return user
   }
 
-  public async findByEmail(email: string) {
+  public async findByEmail(email: string): Promise<User | null> {
     const user = await prisma.user.findUnique({
       where: {
         email,
