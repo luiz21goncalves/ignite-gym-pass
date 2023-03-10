@@ -1,9 +1,7 @@
-import { randomUUID } from 'node:crypto'
-
 import { hash } from 'bcrypt'
 
 import { ENV } from '@/env'
-import { prisma } from '@/lib/prisma'
+import { PrismaUsersRepository } from '@/repositories/prisma-users-repository'
 
 type RegisterUserUseCaseRequest = {
   name: string
@@ -16,11 +14,9 @@ export async function registerUserUseCase({
   name,
   password,
 }: RegisterUserUseCaseRequest) {
-  const userWithSameEmail = await prisma.user.findUnique({
-    where: {
-      email,
-    },
-  })
+  const prismaUsersRepository = new PrismaUsersRepository()
+
+  const userWithSameEmail = await prismaUsersRepository.findByEmail(email)
 
   if (userWithSameEmail) {
     throw new Error('E-mail already exists.')
@@ -28,12 +24,9 @@ export async function registerUserUseCase({
 
   const password_hash = await hash(password, ENV.HASH_ROUNDS)
 
-  await prisma.user.create({
-    data: {
-      id: randomUUID(),
-      name,
-      email,
-      password_hash,
-    },
+  await prismaUsersRepository.create({
+    email,
+    name,
+    password_hash,
   })
 }
