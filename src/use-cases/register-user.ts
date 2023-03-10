@@ -1,7 +1,7 @@
 import { hash } from 'bcrypt'
 
 import { ENV } from '@/env'
-import { UsersRepository } from '@/repositories/users-repository'
+import { User, UsersRepository } from '@/repositories/users-repository'
 
 import { UserAlreadyExistsError } from './errors/user-already-exists-error'
 
@@ -11,10 +11,18 @@ type RegisterUserUseCaseRequest = {
   password: string
 }
 
+type RegisterUserUseCaseResponse = {
+  user: User
+}
+
 export class RegisterUserUseCase {
   constructor(private readonly usersRepository: UsersRepository) {}
 
-  public async execute({ email, name, password }: RegisterUserUseCaseRequest) {
+  public async execute({
+    email,
+    name,
+    password,
+  }: RegisterUserUseCaseRequest): Promise<RegisterUserUseCaseResponse> {
     const userWithSameEmail = await this.usersRepository.findByEmail(email)
 
     if (userWithSameEmail) {
@@ -23,10 +31,12 @@ export class RegisterUserUseCase {
 
     const password_hash = await hash(password, ENV.HASH_ROUNDS)
 
-    await this.usersRepository.create({
+    const user = await this.usersRepository.create({
       email,
       name,
       password_hash,
     })
+
+    return { user }
   }
 }
