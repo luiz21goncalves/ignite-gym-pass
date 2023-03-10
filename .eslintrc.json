@@ -3,6 +3,7 @@
   "plugins": ["eslint-plugin-import-helpers"],
   "rules": {
     "camelcase": "off",
+    "no-useless-constructor": "off",
     "import-helpers/order-imports": ["warn", {
       "newlinesBetween": "always",
       "groups": [
