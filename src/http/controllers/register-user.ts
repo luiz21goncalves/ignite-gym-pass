@@ -33,7 +33,7 @@ export async function registerUser(
       })
     }
 
-    return replay.status(500).send()
+    throw error
   }
 
   return replay.status(201).send()
