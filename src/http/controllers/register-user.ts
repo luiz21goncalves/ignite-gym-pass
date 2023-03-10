@@ -19,6 +19,16 @@ export async function registerUser(
 
   const { email, name, password } = registerBodySchema.parse(request.body)
 
+  const userWithSameEmail = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  })
+
+  if (userWithSameEmail) {
+    return replay.status(409).send()
+  }
+
   const password_hash = await hash(password, ENV.HASH_ROUNDS)
 
   await prisma.user.create({
