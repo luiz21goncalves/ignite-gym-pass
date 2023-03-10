@@ -10,7 +10,10 @@
     "start": "node build/server.js",
     "build": "tsup",
     "lint": "eslint . --ext .ts,js",
-    "lint:fix": "eslint . --ext .ts,js --fix"
+    "lint:fix": "eslint . --ext .ts,js --fix",
+    "test": "vitest run",
+    "test:cov": "vitest run --coverage",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@prisma/client": "4.11.0",
