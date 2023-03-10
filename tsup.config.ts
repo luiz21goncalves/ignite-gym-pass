@@ -4,5 +4,5 @@ export default defineConfig({
   entry: ['src/server.ts'],
   clean: true,
   splitting: true,
-  outDir: 'build'
+  outDir: 'build',
 })
