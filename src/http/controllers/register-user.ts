@@ -1,8 +1,10 @@
 import { randomUUID } from 'node:crypto'
 
+import { hash } from 'bcrypt'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
+import { ENV } from '@/env'
 import { prisma } from '@/lib/prisma'
 
 export async function registerUser(
@@ -17,12 +19,14 @@ export async function registerUser(
 
   const { email, name, password } = registerBodySchema.parse(request.body)
 
+  const password_hash = await hash(password, ENV.HASH_ROUNDS)
+
   await prisma.user.create({
     data: {
       id: randomUUID(),
       name,
       email,
-      password_hash: password,
+      password_hash,
     },
   })
 
