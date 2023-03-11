@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker'
 import { compare } from 'bcrypt'
 import { beforeEach, describe, expect, it } from 'vitest'
 
@@ -16,30 +17,35 @@ describe('Register User User Case', () => {
   })
 
   it('should be able to register', async () => {
+    const name = faker.name.fullName()
+    const email = faker.internet.email()
+
     const { user } = await sut.execute({
-      name: 'John Doe',
-      email: 'johndoe@email.com',
-      password: 'strong_password',
+      name,
+      email,
+      password: faker.internet.password(),
     })
 
     expect(user).toStrictEqual({
       id: expect.any(String),
-      name: 'John Doe',
-      email: 'johndoe@email.com',
+      name,
+      email,
       password_hash: expect.any(String),
       created_at: expect.any(Date),
     })
   })
 
   it('should hash user password upon registration', async () => {
+    const password = faker.internet.password()
+
     const { user } = await sut.execute({
-      name: 'John Doe',
-      email: 'johndoe@email.com',
-      password: 'strong_password',
+      name: faker.name.fullName(),
+      email: faker.internet.email(),
+      password,
     })
 
     const isPasswordCorrectlyHashed = await compare(
-      'strong_password',
+      password,
       user.password_hash,
     )
 
@@ -47,19 +53,19 @@ describe('Register User User Case', () => {
   })
 
   it('should not be able to register with same email twice', async () => {
-    const email = 'johndoe@email.com'
+    const email = faker.internet.email()
 
     await sut.execute({
-      name: 'John Doe',
+      name: faker.name.fullName(),
       email,
-      password: 'strong_password',
+      password: faker.internet.password(),
     })
 
     await expect(() =>
       sut.execute({
-        name: 'John Wick',
+        name: faker.name.fullName(),
         email,
-        password: 'my_dog',
+        password: faker.internet.password(),
       }),
     ).rejects.toBeInstanceOf(UserAlreadyExistsError)
   })

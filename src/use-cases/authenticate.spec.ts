@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker'
 import { hash } from 'bcrypt'
 import { beforeEach, describe, expect, it } from 'vitest'
 
@@ -17,15 +18,18 @@ describe('Authenticate User Case', () => {
   })
 
   it('should be able to authenticate', async () => {
+    const email = faker.internet.email()
+    const password = faker.internet.password()
+
     const createdUser = await usersRepository.create({
-      email: 'johndoe@email.com',
-      name: 'John Doe',
-      password_hash: await hash('123456', ENV.HASH_ROUNDS),
+      email,
+      name: faker.name.fullName(),
+      password_hash: await hash(password, ENV.HASH_ROUNDS),
     })
 
     const { user: authenticatedUser } = await sut.execute({
-      email: 'johndoe@email.com',
-      password: '123456',
+      email,
+      password,
     })
 
     expect(authenticatedUser).toStrictEqual(createdUser)
@@ -34,22 +38,24 @@ describe('Authenticate User Case', () => {
   it('should not be able to authenticate with wrong email', async () => {
     await expect(() =>
       sut.execute({
-        email: 'johndoe@email.com',
-        password: '123456',
+        email: faker.internet.email(),
+        password: faker.internet.password(),
       }),
     ).rejects.toBeInstanceOf(InvalidCredentialsError)
   })
 
   it('should not be able to authenticate with wrong password', async () => {
+    const email = faker.internet.email()
+
     await usersRepository.create({
-      email: 'johndoe@email.com',
-      name: 'John Doe',
-      password_hash: await hash('123456', ENV.HASH_ROUNDS),
+      email,
+      name: faker.name.fullName(),
+      password_hash: await hash(faker.internet.password(), ENV.HASH_ROUNDS),
     })
 
     await expect(() =>
       sut.execute({
-        email: 'johndoe@email.com',
+        email,
         password: 'wrong-password',
       }),
     ).rejects.toBeInstanceOf(InvalidCredentialsError)
