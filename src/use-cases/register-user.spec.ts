@@ -6,14 +6,12 @@ import { InMemoryUserRepository } from '@/repositories/in-memory/in-memory-users
 import { UserAlreadyExistsError } from './errors/user-already-exists-error'
 import { RegisterUserUseCase } from './register-user'
 
-describe('Register user User Case', () => {
+describe('Register User User Case', () => {
   it('should be able to register', async () => {
     const inMemoryUsersRepository = new InMemoryUserRepository()
-    const registerUserUserCase = new RegisterUserUseCase(
-      inMemoryUsersRepository,
-    )
+    const sut = new RegisterUserUseCase(inMemoryUsersRepository)
 
-    const { user } = await registerUserUserCase.execute({
+    const { user } = await sut.execute({
       name: 'John Doe',
       email: 'johndoe@email.com',
       password: 'strong_password',
@@ -30,11 +28,9 @@ describe('Register user User Case', () => {
 
   it('should hash user password upon registration', async () => {
     const inMemoryUsersRepository = new InMemoryUserRepository()
-    const registerUserUserCase = new RegisterUserUseCase(
-      inMemoryUsersRepository,
-    )
+    const sut = new RegisterUserUseCase(inMemoryUsersRepository)
 
-    const { user } = await registerUserUserCase.execute({
+    const { user } = await sut.execute({
       name: 'John Doe',
       email: 'johndoe@email.com',
       password: 'strong_password',
@@ -50,20 +46,18 @@ describe('Register user User Case', () => {
 
   it('should not be able to register with same email twice', async () => {
     const inMemoryUsersRepository = new InMemoryUserRepository()
-    const registerUserUserCase = new RegisterUserUseCase(
-      inMemoryUsersRepository,
-    )
+    const sut = new RegisterUserUseCase(inMemoryUsersRepository)
 
     const email = 'johndoe@email.com'
 
-    await registerUserUserCase.execute({
+    await sut.execute({
       name: 'John Doe',
       email,
       password: 'strong_password',
     })
 
     await expect(() =>
-      registerUserUserCase.execute({
+      sut.execute({
         name: 'John Wick',
         email,
         password: 'my_dog',
