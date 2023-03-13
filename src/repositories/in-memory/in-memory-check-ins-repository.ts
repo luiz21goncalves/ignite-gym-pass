@@ -1,5 +1,7 @@
 import { randomUUID } from 'node:crypto'
 
+import dayjs from 'dayjs'
+
 import {
   CheckIn,
   CheckInData,
@@ -11,6 +13,20 @@ export class InMemoryCheckInsRepository implements CheckInsRepository {
 
   constructor() {
     this.checkIns = []
+  }
+
+  public async findByUserIdOnDate(
+    userId: string,
+    date: Date,
+  ): Promise<CheckIn | null> {
+    const checkInOnSameDate = this.checkIns.find((checkIn) => {
+      const checkInDate = dayjs(checkIn.created_at)
+      const isOnSameDate = checkInDate.isSame(date, 'date')
+
+      return checkIn.user_id === userId && isOnSameDate
+    })
+
+    return checkInOnSameDate ?? null
   }
 
   public async create({ gym_id, user_id }: CheckInData): Promise<CheckIn> {
