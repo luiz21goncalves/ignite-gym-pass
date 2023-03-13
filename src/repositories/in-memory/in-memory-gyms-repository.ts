@@ -9,6 +9,14 @@ export class InMemoryGymsRepository implements GymsRepository {
     this.gyms = []
   }
 
+  public async searchMany(query: string, page: number): Promise<Gym[]> {
+    const gyms = this.gyms
+      .filter((gym) => gym.title.includes(query))
+      .slice((page - 1) * 20, page * 20)
+
+    return gyms
+  }
+
   public async findById(id: string): Promise<Gym | null> {
     const gym = this.gyms.find((gym) => gym.id === id)
 

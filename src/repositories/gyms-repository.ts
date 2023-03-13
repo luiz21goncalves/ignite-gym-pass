@@ -18,4 +18,5 @@ export type CreateGymData = {
 export type GymsRepository = {
   create(date: CreateGymData): Promise<Gym>
   findById(id: string): Promise<Gym | null>
+  searchMany(query: string, page: number): Promise<Gym[]>
 }
