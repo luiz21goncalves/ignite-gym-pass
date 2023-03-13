@@ -3,6 +3,7 @@ import {
   CheckInsRepository,
 } from '@/repositories/check-ins-repository'
 import { GymsRepository } from '@/repositories/gyms-repository'
+import { UsersRepository } from '@/repositories/users-repository'
 import {
   Coordinates,
   getDistanteBetweenCoordinates,
@@ -28,6 +29,7 @@ export class CheckInUseCase {
   constructor(
     private readonly checkInsRepository: CheckInsRepository,
     private readonly gymsRepository: GymsRepository,
+    private readonly usersRepository: UsersRepository,
   ) {}
 
   public async execute({
@@ -38,6 +40,12 @@ export class CheckInUseCase {
     const gym = await this.gymsRepository.findById(gymId)
 
     if (!gym) {
+      throw new ResourceNotFoundError()
+    }
+
+    const user = await this.usersRepository.findById(userId)
+
+    if (!user) {
       throw new ResourceNotFoundError()
     }
 
@@ -54,7 +62,7 @@ export class CheckInUseCase {
     }
 
     const checkInOnSameDate = await this.checkInsRepository.findByUserIdOnDate(
-      userId,
+      user.id,
       new Date(),
     )
 
@@ -64,7 +72,7 @@ export class CheckInUseCase {
 
     const checkIn = await this.checkInsRepository.create({
       gym_id: gymId,
-      user_id: userId,
+      user_id: user.id,
     })
 
     return { checkIn }
