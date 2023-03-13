@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto'
 
 import { CreateUserData, User, UsersRepository } from '../users-repository'
 
-export class InMemoryUserRepository implements UsersRepository {
+export class InMemoryUsersRepository implements UsersRepository {
   private users: User[]
 
   constructor() {

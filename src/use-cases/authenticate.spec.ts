@@ -3,17 +3,17 @@ import { hash } from 'bcrypt'
 import { beforeEach, describe, expect, it } from 'vitest'
 
 import { ENV } from '@/env'
-import { InMemoryUserRepository } from '@/repositories/in-memory/in-memory-users-repository'
+import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
 
 import { AuthenticateUseCase } from './authenticate'
 import { InvalidCredentialsError } from './errors/invalid-credentials-error'
 
-let usersRepository: InMemoryUserRepository
+let usersRepository: InMemoryUsersRepository
 let sut: AuthenticateUseCase
 
 describe('Authenticate Use Case', () => {
   beforeEach(() => {
-    usersRepository = new InMemoryUserRepository()
+    usersRepository = new InMemoryUsersRepository()
     sut = new AuthenticateUseCase(usersRepository)
   })
 

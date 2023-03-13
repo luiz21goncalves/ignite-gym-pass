@@ -2,17 +2,17 @@ import { faker } from '@faker-js/faker'
 import { compare } from 'bcrypt'
 import { beforeEach, describe, expect, it } from 'vitest'
 
-import { InMemoryUserRepository } from '@/repositories/in-memory/in-memory-users-repository'
+import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
 
 import { UserAlreadyExistsError } from './errors/user-already-exists-error'
 import { RegisterUserUseCase } from './register-user'
 
-let inMemoryUsersRepository: InMemoryUserRepository
+let inMemoryUsersRepository: InMemoryUsersRepository
 let sut: RegisterUserUseCase
 
 describe('Register User User Case', () => {
   beforeEach(() => {
-    inMemoryUsersRepository = new InMemoryUserRepository()
+    inMemoryUsersRepository = new InMemoryUsersRepository()
     sut = new RegisterUserUseCase(inMemoryUsersRepository)
   })
 
