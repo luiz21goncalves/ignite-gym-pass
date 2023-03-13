@@ -14,4 +14,5 @@ export type CheckIn = {
 export type CheckInsRepository = {
   create(data: CheckInData): Promise<CheckIn>
   findByUserIdOnDate(userId: string, date: Date): Promise<CheckIn | null>
+  findManyByUserId(userId: string, page: number): Promise<CheckIn[]>
 }
