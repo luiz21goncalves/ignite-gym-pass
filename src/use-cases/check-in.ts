@@ -1,3 +1,4 @@
+import { CHECK_IN } from '@/constants'
 import {
   CheckIn,
   CheckInsRepository,
@@ -22,8 +23,6 @@ type CheckInUseCaseRequest = {
 type CheckInUseCaseResponse = {
   checkIn: CheckIn
 }
-
-const MAX_DISTANCE_IN_KILOMETERS = 0.1
 
 export class CheckInUseCase {
   constructor(
@@ -57,7 +56,7 @@ export class CheckInUseCase {
       to: { latitude: gym.latitude, longitude: gym.longitude },
     })
 
-    if (distance > MAX_DISTANCE_IN_KILOMETERS) {
+    if (distance > CHECK_IN.MAX_DISTANCE_IN_KILOMETERS) {
       throw new MaxDistanceError()
     }
 
