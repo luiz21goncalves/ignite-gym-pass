@@ -1,5 +1,11 @@
 import { randomUUID } from 'node:crypto'
 
+import { GYM } from '@/constants'
+import {
+  Coordinates,
+  getDistanteBetweenCoordinates,
+} from '@/utils/get-distance-between-coordinates'
+
 import { CreateGymData, Gym, GymsRepository } from '../gyms-repository'
 
 export class InMemoryGymsRepository implements GymsRepository {
@@ -7,6 +13,22 @@ export class InMemoryGymsRepository implements GymsRepository {
 
   constructor() {
     this.gyms = []
+  }
+
+  public async findManyNearby({
+    latitude,
+    longitude,
+  }: Coordinates): Promise<Gym[]> {
+    const gyms = this.gyms.filter((gym) => {
+      const distance = getDistanteBetweenCoordinates({
+        from: { latitude, longitude },
+        to: { latitude: gym.latitude, longitude: gym.longitude },
+      })
+
+      return distance <= GYM.MAX_RANGE_IN_KILOMETERS
+    })
+
+    return gyms
   }
 
   public async searchMany(query: string, page: number): Promise<Gym[]> {
