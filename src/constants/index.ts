@@ -4,4 +4,5 @@ export const GYM = {
 
 export const CHECK_IN = {
   MAX_DISTANCE_IN_KILOMETERS: 0.1,
+  MAX_TIME_TO_VALIDATE_IN_MINUTES: 20,
 }
