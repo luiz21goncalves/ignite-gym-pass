@@ -2,6 +2,8 @@ import { randomUUID } from 'node:crypto'
 
 import dayjs from 'dayjs'
 
+import { PAGINATION } from '@/constants'
+
 import {
   CheckIn,
   CheckInData,
@@ -63,7 +65,10 @@ export class InMemoryCheckInsRepository implements CheckInsRepository {
   ): Promise<CheckIn[]> {
     const checkIns = this.checkIns
       .filter((checkIn) => checkIn.user_id === userId)
-      .slice((page - 1) * 20, page * 20)
+      .slice(
+        (page - 1) * PAGINATION.MAX_ITEMS_PER_PAGE,
+        page * PAGINATION.MAX_ITEMS_PER_PAGE,
+      )
 
     return checkIns
   }

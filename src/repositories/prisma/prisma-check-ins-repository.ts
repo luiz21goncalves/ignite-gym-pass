@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto'
 
 import dayjs from 'dayjs'
 
+import { PAGINATION } from '@/constants'
 import { prisma } from '@/lib/prisma'
 
 import {
@@ -85,8 +86,8 @@ export class PrismaCheckInsRepository implements CheckInsRepository {
   ): Promise<CheckIn[]> {
     const checkIns = await prisma.checkIn.findMany({
       where: { user_id: userId },
-      take: 20,
-      skip: (page - 1) * 20,
+      take: PAGINATION.MAX_ITEMS_PER_PAGE,
+      skip: (page - 1) * PAGINATION.MAX_ITEMS_PER_PAGE,
     })
 
     return checkIns

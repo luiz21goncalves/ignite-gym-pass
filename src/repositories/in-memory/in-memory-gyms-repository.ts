@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto'
 
-import { GYM } from '@/constants'
+import { GYM, PAGINATION } from '@/constants'
 import {
   Coordinates,
   getDistanteBetweenCoordinates,
@@ -34,7 +34,10 @@ export class InMemoryGymsRepository implements GymsRepository {
   public async searchMany(query: string, page: number): Promise<Gym[]> {
     const gyms = this.gyms
       .filter((gym) => gym.title.includes(query))
-      .slice((page - 1) * 20, page * 20)
+      .slice(
+        (page - 1) * PAGINATION.MAX_ITEMS_PER_PAGE,
+        page * PAGINATION.MAX_ITEMS_PER_PAGE,
+      )
 
     return gyms
   }

@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto'
 
 import { Gym as PrismaGym } from '@prisma/client'
 
+import { PAGINATION } from '@/constants'
 import { prisma } from '@/lib/prisma'
 import { Coordinates } from '@/utils/get-distance-between-coordinates'
 
@@ -76,8 +77,8 @@ export class PrismaGymsRepository implements GymsRepository {
           contains: query,
         },
       },
-      take: 20,
-      skip: (page - 1) * 20,
+      take: PAGINATION.MAX_ITEMS_PER_PAGE,
+      skip: (page - 1) * PAGINATION.MAX_ITEMS_PER_PAGE,
     })
 
     const formattedGyms = gyms.map((gym) => {
