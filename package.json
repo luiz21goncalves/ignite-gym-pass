@@ -11,10 +11,13 @@
     "build": "tsup",
     "lint": "eslint . --ext .ts,js",
     "lint:fix": "eslint . --ext .ts,js --fix",
-    "test": "vitest run",
-    "test:cov": "vitest run --coverage",
+    "test": "vitest run --dir src/use-cases",
+    "test:cov": "vitest run --coverage --dir src/use-cases",
     "test:watch": "vitest",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui --dir src/use-cases",
+    "test:e2e": "vitest run --dir src/http",
+    "test:e2e:ui": "vitest --ui --dir src/http",
+    "test:e2e:cov": "vitest run --dir src/http --coverage"
   },
   "dependencies": {
     "@fastify/jwt": "6.7.0",
