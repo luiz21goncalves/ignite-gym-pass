@@ -21,6 +21,7 @@ specifiers:
   typescript: 4.9.5
   vite-tsconfig-paths: 4.0.5
   vitest: 0.29.2
+  vitest-environment-prisma: link:./prisma/vitest-environment-prisma
   zod: 3.21.4
 
 dependencies:
@@ -47,6 +48,7 @@ devDependencies:
   typescript: 4.9.5
   vite-tsconfig-paths: 4.0.5_typescript@4.9.5
   vitest: 0.29.2_@vitest+ui@0.29.2
+  vitest-environment-prisma: link:prisma/vitest-environment-prisma
 
 packages:
 

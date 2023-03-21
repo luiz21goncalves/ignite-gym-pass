@@ -8,5 +8,6 @@ export default defineConfig({
       provider: 'c8',
       reporter: ['lcov', 'text', 'text-summary'],
     },
+    environmentMatchGlobs: [['src/http/controllers/**', 'prisma']],
   },
 })
