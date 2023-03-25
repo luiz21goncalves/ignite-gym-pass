@@ -1,0 +1,18 @@
+import { FastifyReply, FastifyRequest } from 'fastify'
+
+import { makeGetUserMetricsUseCase } from '@/use-cases/factories/make-get-user-metrics-use-case'
+
+export async function metricsCheckIn(
+  request: FastifyRequest,
+  replay: FastifyReply,
+) {
+  const userId = request.user.sub
+
+  const getUserMetricsUseCase = makeGetUserMetricsUseCase()
+
+  const { checkInsCount } = await getUserMetricsUseCase.execute({
+    userId,
+  })
+
+  return replay.status(200).send({ checkInsCount })
+}
