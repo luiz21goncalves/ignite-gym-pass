@@ -1,8 +1,8 @@
-import { faker } from '@faker-js/faker'
 import supertest from 'supertest'
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 
 import { app } from '@/app'
+import { createAndAuthenticateUser } from '@/utils/test/create-and-authenticate-user'
 
 describe('User Profile (e2e)', () => {
   beforeAll(async () => {
@@ -14,24 +14,11 @@ describe('User Profile (e2e)', () => {
   })
 
   it('should be able to authenticate', async () => {
-    const name = faker.name.fullName()
-    const email = faker.internet.email()
-    const password = faker.internet.password()
-
-    await supertest(app.server).post('/users').send({
-      name,
-      email,
-      password,
-    })
-
-    const authResponse = await supertest(app.server).post('/sessions').send({
-      email,
-      password,
-    })
+    const { token, email, name } = await createAndAuthenticateUser(app)
 
     const profileResponse = await supertest(app.server)
       .get('/me')
-      .set('Authorization', `Bearer ${authResponse.body.token}`)
+      .set('Authorization', `Bearer ${token}`)
 
     expect(profileResponse.statusCode).toEqual(200)
     expect(profileResponse.body).toStrictEqual({
