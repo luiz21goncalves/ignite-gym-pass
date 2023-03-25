@@ -30,7 +30,7 @@ export class PrismaGymsRepository implements GymsRepository {
     return {
       ...gym,
       latitude: gym.latitude.toNumber(),
-      longitude: gym.latitude.toNumber(),
+      longitude: gym.longitude.toNumber(),
     }
   }
 
@@ -43,7 +43,7 @@ export class PrismaGymsRepository implements GymsRepository {
       return {
         ...gym,
         latitude: gym.latitude.toNumber(),
-        longitude: gym.latitude.toNumber(),
+        longitude: gym.longitude.toNumber(),
       }
     }
 
@@ -63,7 +63,7 @@ export class PrismaGymsRepository implements GymsRepository {
       return {
         ...gym,
         latitude: gym.latitude.toNumber(),
-        longitude: gym.latitude.toNumber(),
+        longitude: gym.longitude.toNumber(),
       }
     })
 
@@ -85,7 +85,7 @@ export class PrismaGymsRepository implements GymsRepository {
       return {
         ...gym,
         latitude: gym.latitude.toNumber(),
-        longitude: gym.latitude.toNumber(),
+        longitude: gym.longitude.toNumber(),
       }
     })
 
