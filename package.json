@@ -20,6 +20,7 @@
     "test:e2e:cov": "vitest run --dir src/http --coverage"
   },
   "dependencies": {
+    "@fastify/cookie": "8.3.0",
     "@fastify/jwt": "6.7.0",
     "@prisma/client": "4.11.0",
     "bcrypt": "5.1.0",
