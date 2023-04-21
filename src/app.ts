@@ -11,6 +11,9 @@ export const app = fastify()
 
 app.register(fastifyJwt, {
   secret: ENV.JWT_SECRET,
+  sign: {
+    expiresIn: ENV.JWT_EXPIRES_IN,
+  },
 })
 
 app.register(usersRoutes)
