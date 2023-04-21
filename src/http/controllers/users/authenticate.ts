@@ -24,10 +24,13 @@ export async function authenticate(
       password,
     })
 
-    const token = await replay.jwtSign({}, { sign: { sub: user.id } })
+    const token = await replay.jwtSign(
+      { role: user.role },
+      { sign: { sub: user.id } },
+    )
 
     const refreshToken = await replay.jwtSign(
-      {},
+      { role: user.role },
       { sign: { sub: user.id, expiresIn: ENV.JWT_REFRESH_EXPIRES_IN } },
     )
 
