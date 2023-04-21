@@ -18,7 +18,7 @@ describe('Validate Check-in (e2e)', () => {
   })
 
   it('should be able to get the count of check-ins', async () => {
-    const { token, email } = await createAndAuthenticateUser(app)
+    const { token, email } = await createAndAuthenticateUser(app, true)
 
     const latitude = Number(faker.address.latitude())
     const longitude = Number(faker.address.longitude())
