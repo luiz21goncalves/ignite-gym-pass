@@ -36,3 +36,9 @@ jobs:
       - run: pnpm install --prefer-offline
 
       - run: pnpm run test
+        env:
+          PORT: 3333
+          HASH_ROUNDS: 4
+          JWT_SECRET: supersecret
+          JWT_EXPIRES_IN: 1d
+          JWT_REFRESH_EXPIRES_IN: 30d
